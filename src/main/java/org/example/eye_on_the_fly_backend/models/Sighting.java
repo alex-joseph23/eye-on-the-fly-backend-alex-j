@@ -15,6 +15,10 @@ public class Sighting {
     private String imageUrl;
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "county_id")
+    private County county;
+
     public Sighting() {}
 
     public Sighting(String location, String date, String time, String imageUrl, String description) {
@@ -59,6 +63,12 @@ public class Sighting {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public County getCounty() {
+        return county;
+    }
+    public void setCounty(County county) {
+        this.county = county;}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
