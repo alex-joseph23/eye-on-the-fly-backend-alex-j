@@ -38,13 +38,14 @@ public class SightingController {
                 .orElseThrow(() -> new NoResourceFoundException(HttpMethod.GET, "/api/sightings/" + id));
     }
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<Sighting> addNewSighting(@RequestBody Sighting newSighting) {
-        String countyName = newSighting.getCounty().getName();
-        County existingCounty = countyRepository.findByName(countyName);
+        String countyName = newSighting.getCounty().getName().trim();
+        countyName = countyName.substring(0, 1).toUpperCase() + countyName.substring(1).toLowerCase();
+        County existingCounty = countyRepository.findByNameIgnoreCase(countyName);
         if (existingCounty == null) {
             existingCounty = new County(countyName);
-            countyRepository.save(existingCounty);
+            existingCounty = countyRepository.save(existingCounty);
         }
         newSighting.setCounty(existingCounty);
         Sighting savedSighting = sightingRepository.save(newSighting);

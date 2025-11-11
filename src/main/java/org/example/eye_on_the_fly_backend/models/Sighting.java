@@ -1,4 +1,5 @@
 package org.example.eye_on_the_fly_backend.models;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -17,9 +18,9 @@ public class Sighting {
     private String imageUrl;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "county_id")
-    @JsonBackReference
+    @JsonIgnoreProperties({"sightings"})
     private County county;
 
     public Sighting() {}

@@ -1,4 +1,5 @@
 package org.example.eye_on_the_fly_backend.models;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class County {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnoreProperties({"county"})
     private List<Sighting> sightings = new ArrayList<>();
     public County() {}
 
