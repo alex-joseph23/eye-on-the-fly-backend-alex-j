@@ -1,4 +1,6 @@
 package org.example.eye_on_the_fly_backend.models;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -17,6 +19,7 @@ public class Sighting {
 
     @ManyToOne
     @JoinColumn(name = "county_id")
+    @JsonBackReference
     private County county;
 
     public Sighting() {}

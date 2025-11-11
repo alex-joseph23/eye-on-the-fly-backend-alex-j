@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class County {
     @Id
@@ -10,6 +12,7 @@ public class County {
     private Long id;
     private String name;
     @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Sighting> sightings = new ArrayList<>();
     public County() {}
 
