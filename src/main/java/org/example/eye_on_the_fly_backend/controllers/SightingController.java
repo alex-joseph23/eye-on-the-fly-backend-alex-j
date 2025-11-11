@@ -1,5 +1,7 @@
 package org.example.eye_on_the_fly_backend.controllers;
 import org.example.eye_on_the_fly_backend.models.Sighting;
+import org.example.eye_on_the_fly_backend.models.County;
+import org.example.eye_on_the_fly_backend.repositories.CountyRepository;
 import org.example.eye_on_the_fly_backend.repositories.SightingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -19,6 +21,8 @@ import java.util.Map;
 public class SightingController {
     @Autowired
     private SightingRepository sightingRepository;
+    @Autowired
+    private CountyRepository countyRepository;
 
     @GetMapping("")
     public ResponseEntity<List<Sighting>> getAllSightings() {
@@ -36,6 +40,13 @@ public class SightingController {
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Sighting> addNewSighting(@RequestBody Sighting newSighting) {
+        String countyName = newSighting.getCounty().getName();
+        County existingCounty = countyRepository.findByName(countyName);
+        if (existingCounty == null) {
+            existingCounty = new County(countyName);
+            countyRepository.save(existingCounty);
+        }
+        newSighting.setCounty(existingCounty);
         Sighting savedSighting = sightingRepository.save(newSighting);
         return new ResponseEntity<>(savedSighting, HttpStatus.CREATED);
     }
