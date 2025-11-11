@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -60,6 +62,18 @@ public class SightingController {
         sightingRepository.findById(id)
                 .orElseThrow(() -> new NoResourceFoundException(HttpMethod.DELETE, "/api/sightings/" + id));
         sightingRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);}
 
-    }}
+    @GetMapping("/count-by-county")
+    public ResponseEntity<Map<String, Integer>> getSightingCountByCounty() {
+        List<Sighting> sightings = sightingRepository.findAll();
+        Map<String, Integer> countByCounty = new HashMap<>();
+
+        for (Sighting sighting : sightings) {
+            String countyName = sighting.getCounty().getName();
+            countByCounty.put(countyName, countByCounty.getOrDefault(countyName, 0) + 1);
+        }
+
+        return new ResponseEntity<>(countByCounty, HttpStatus.OK);
+    }
+}
