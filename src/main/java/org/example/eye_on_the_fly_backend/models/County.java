@@ -9,4 +9,21 @@ public class County {
     @GeneratedValue(strategy = GenrationType.IDENTITY)
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
+    private List<Sighting> sightings = new ArrayList<>();
+
+    public County(String name) {
+        this.name = name;}
+    public long getId() {
+        return id;
+    }
+    public String getName() {
+        return name;}
+    public void setName(String name) {
+        this.name = name;}
+
+    public List<Sighting> getSightings() {
+        return sightings;}
+    public void setSightings(List<Sighting> sightings) {
+        this.sightings = sightings;}
 }
