@@ -6,11 +6,12 @@ import java.util.Objects;
 @Entity
 public class County {
     @Id
-    @GeneratedValue(strategy = GenrationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @OneToMany(mappedBy = "county", cascade = CascadeType.ALL)
     private List<Sighting> sightings = new ArrayList<>();
+    public County() {}
 
     public County(String name) {
         this.name = name;}
@@ -26,10 +27,13 @@ public class County {
         return sightings;}
     public void setSightings(List<Sighting> sightings) {
         this.sightings = sightings;}
-}
+
 @Override
 public boolean equals(Object o) {
-    if (this == = o) return true;
+    if (this == o) return true;
     if (!(o instanceof County county)) return false;
     return Objects.equals(id, county.id);
 }
+@Override public int hashCode() {
+    return Objects.hash(id);
+}}
