@@ -27,3 +27,9 @@ public class County {
     public void setSightings(List<Sighting> sightings) {
         this.sightings = sightings;}
 }
+@Override
+public boolean equals(Object o) {
+    if (this == = o) return true;
+    if (!(o instanceof County county)) return false;
+    return Objects.equals(id, county.id);
+}
