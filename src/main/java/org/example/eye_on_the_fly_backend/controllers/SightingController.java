@@ -58,10 +58,7 @@ public class SightingController {
         Sighting sighting = sightingRepository.findById(id)
                 .orElseThrow(() -> new NoResourceFoundException(HttpMethod.PUT, "/api/sightings/" + id));
 
-                    sighting.setLocation(updatedSighting.getLocation());
-                    sighting.setDate(updatedSighting.getDate());
-                    sighting.setTime(updatedSighting.getTime());
-                    sighting.setImageUrl(updatedSighting.getImageUrl());
+
                     sighting.setDescription(updatedSighting.getDescription());
 
                     Sighting savedSighting = sightingRepository.save(sighting);
